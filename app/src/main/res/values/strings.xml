@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Pokedex</string>
+    <string name="generate">Generate</string>
+    <string name="enter_pokemon_prompt">Enter the ID or name of Pokemon you wish to retrieve:</string>
+</resources>
