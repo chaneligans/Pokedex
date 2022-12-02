@@ -1,4 +1,4 @@
-package com.chanel.android.pokedex
+package com.chanel.android.pokedex.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

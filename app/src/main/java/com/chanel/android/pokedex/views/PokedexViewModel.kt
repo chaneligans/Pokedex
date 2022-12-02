@@ -1,4 +1,4 @@
-package com.chanel.android.pokedex
+package com.chanel.android.pokedex.views
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
