@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.chanel.android.pokedex.model.Pokemon
+import com.chanel.android.pokedex.network.RetrofitInstance
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
