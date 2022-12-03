@@ -5,10 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.chanel.android.pokedex.databinding.FragmentSinglePokemonInputBinding
+import com.chanel.android.pokedex.model.Pokemon
 
 class SinglePokemonInputFragment: Fragment() {
 
@@ -18,7 +20,7 @@ class SinglePokemonInputFragment: Fragment() {
             "Cannot access FragmentSinglePokemonInputBinding because it is null. Is the view visible?"
         }
 
-    private val viewModel: PokedexViewModel by viewModels()
+    private val viewModel: SinglePokemonViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,11 +33,8 @@ class SinglePokemonInputFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.pokemon.observe(viewLifecycleOwner) { pokemon ->
-            Log.d("chanelz", "$pokemon")
-            findNavController().navigate(
-                SinglePokemonInputFragmentDirections.showPokemonDetails(pokemon)
-            )
+        viewModel.pokemon.observe(viewLifecycleOwner) { event ->
+            onPokemonChangedEvent(event)
         }
 
         binding.generateButton.setOnClickListener {
@@ -43,9 +42,34 @@ class SinglePokemonInputFragment: Fragment() {
         }
     }
 
-    fun onButtonClicked() {
+    private fun onButtonClicked() {
         val pokemonInput = binding.pokemonInput.text.toString()
-        viewModel.getSinglePokemon(pokemonInput)
+        if (pokemonInput == "") {
+            showErrorMessage()
+        } else {
+            viewModel.getSinglePokemon(pokemonInput)
+        }
+    }
+
+    private fun onPokemonChangedEvent(event: Event<Pokemon>) {
+        val pokemon = event.getContentIfNotHandled()
+        Log.d("chanelz", "$pokemon")
+
+        if (pokemon == null) {
+            showErrorMessage()
+        } else {
+            findNavController().navigate(
+                SinglePokemonInputFragmentDirections.showPokemonDetails(pokemon)
+            )
+        }
+    }
+
+    private fun showErrorMessage() {
+        Toast.makeText(
+            context,
+            "Invalid input",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun onDestroyView() {

@@ -1,6 +1,7 @@
 package com.chanel.android.pokedex.model
 
 import android.os.Parcelable
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.android.parcel.Parcelize
 
@@ -11,5 +12,5 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class Sprites (
-    val front_default: String
+    @Json(name = "front_default") val front_default_url: String
 ): Parcelable

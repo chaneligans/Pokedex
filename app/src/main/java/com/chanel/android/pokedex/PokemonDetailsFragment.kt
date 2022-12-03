@@ -1,28 +1,30 @@
 package com.chanel.android.pokedex
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.chanel.android.pokedex.databinding.FragmentPokemonDetailsBinding
+import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_id_text
+import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_image
+import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_name_text
+import kotlinx.android.synthetic.main.fragment_pokemon_details.type_row
 
 class PokemonDetailsFragment: Fragment() {
 
     private val args: PokemonDetailsFragmentArgs by navArgs()
+    private val pokemon
+        get() = args.pokemon
 
     private var _binding: FragmentPokemonDetailsBinding? = null
     val binding
         get() = checkNotNull(_binding) {
         "Cannot access FragmentPokemonDetailsBinding because it is null. Is the view visible?"
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val pokemonData = args.pokemon
-        Log.d("chanelz", "pokemon: ${pokemonData}")
     }
 
     override fun onCreateView(
@@ -38,7 +40,19 @@ class PokemonDetailsFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         _binding.apply {
-            
+            val imageUrl = pokemon.sprites.front_default_url
+            pokemon_image.load(imageUrl)
+            pokemon_id_text.text = pokemon.id.toString()
+            pokemon_name_text.text = pokemon.name
+            pokemon.types.forEach { type ->
+                val textView = TextView(context)
+                textView.layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+                textView.text = type.typeResult.name
+                type_row.addView(textView)
+            }
         }
     }
 

@@ -1,8 +1,12 @@
 package com.chanel.android.pokedex
 
 import android.util.Log
+import android.widget.Toast
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.chanel.android.pokedex.model.Pokemon
 import com.chanel.android.pokedex.network.RetrofitInstance
@@ -12,9 +16,11 @@ import java.io.IOException
 
 private const val TAG = "PokedexViewModel"
 
-class PokedexViewModel : ViewModel() {
+class SinglePokemonViewModel : ViewModel() {
 
-    val pokemon = MutableLiveData<Pokemon>()
+    private val _pokemon = MutableLiveData<Event<Pokemon>>()
+    val pokemon: LiveData<Event<Pokemon>>
+        get() = _pokemon
 
     fun getSinglePokemon(id: String) {
         viewModelScope.launch {
@@ -29,8 +35,8 @@ class PokedexViewModel : ViewModel() {
             }
 
             if (response.isSuccessful) {
-                response.body()?.let {
-                    pokemon.postValue(response.body())
+                response.body()?.let { body ->
+                    _pokemon.value = Event(body)
                 }
             } else {
                 Log.e(TAG, "Response unsuccessful")
