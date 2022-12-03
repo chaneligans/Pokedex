@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.chanel.android.pokedex.databinding.FragmentSinglePokemonInputBinding
 
 class SinglePokemonInputFragment: Fragment() {
@@ -14,7 +15,7 @@ class SinglePokemonInputFragment: Fragment() {
     private var _binding: FragmentSinglePokemonInputBinding? = null
     val binding
         get() = checkNotNull(_binding) {
-            "Cannot access binding because it is null. Is the view visible?"
+            "Cannot access FragmentSinglePokemonInputBinding because it is null. Is the view visible?"
         }
 
     private val viewModel: PokedexViewModel by viewModels()
@@ -29,14 +30,22 @@ class SinglePokemonInputFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.pokemon.observe(viewLifecycleOwner) { pokemon ->
             Log.d("chanelz", "$pokemon")
+            findNavController().navigate(
+                SinglePokemonInputFragmentDirections.showPokemonDetails(pokemon)
+            )
         }
 
         binding.generateButton.setOnClickListener {
-            val pokemonInput = binding.pokemonInput.text.toString()
-            viewModel.getSinglePokemon(pokemonInput)
+            onButtonClicked()
         }
+    }
+
+    fun onButtonClicked() {
+        val pokemonInput = binding.pokemonInput.text.toString()
+        viewModel.getSinglePokemon(pokemonInput)
     }
 
     override fun onDestroyView() {

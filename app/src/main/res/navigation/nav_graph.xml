@@ -8,5 +8,17 @@
         android:id="@+id/singlePokemonInputFragment"
         android:name="com.chanel.android.pokedex.SinglePokemonInputFragment"
         android:label="fragment_single_pokemon_input"
-        tools:layout="@layout/fragment_single_pokemon_input" />
+        tools:layout="@layout/fragment_single_pokemon_input" >
+        <action
+            android:id="@+id/showPokemonDetails"
+            app:destination="@id/pokemonDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pokemonDetailsFragment"
+        android:name="com.chanel.android.pokedex.PokemonDetailsFragment"
+        android:label="PokemonDetailsFragment" >
+        <argument
+            android:name="pokemon"
+            app:argType="com.chanel.android.pokedex.model.Pokemon" />
+    </fragment>
 </navigation>
