@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.chanel.android.pokedex.helpers.Event
 import com.chanel.android.pokedex.model.Pokemon
 import com.chanel.android.pokedex.network.RetrofitInstance
 import kotlinx.coroutines.launch
