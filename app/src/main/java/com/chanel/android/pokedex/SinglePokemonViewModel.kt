@@ -1,12 +1,9 @@
 package com.chanel.android.pokedex
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.chanel.android.pokedex.model.Pokemon
 import com.chanel.android.pokedex.network.RetrofitInstance
@@ -25,7 +22,7 @@ class SinglePokemonViewModel : ViewModel() {
     fun getSinglePokemon(id: String) {
         viewModelScope.launch {
             val response = try {
-                RetrofitInstance.api.getPokemonInfo(id)
+                RetrofitInstance.pokemonApi.getPokemonInfo(id)
             } catch(e: IOException) {
                 Log.e(TAG, "IOException, you might not have internet connection")
                 return@launch
@@ -41,7 +38,6 @@ class SinglePokemonViewModel : ViewModel() {
             } else {
                 Log.e(TAG, "Response unsuccessful")
             }
-
         }
     }
 }

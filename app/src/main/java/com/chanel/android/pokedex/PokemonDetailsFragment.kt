@@ -1,6 +1,7 @@
 package com.chanel.android.pokedex
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_pokemon_details.type_row
 
 class PokemonDetailsFragment: Fragment() {
 
+    // Pokemon passed from other Fragment
     private val args: PokemonDetailsFragmentArgs by navArgs()
     private val pokemon
         get() = args.pokemon
@@ -40,9 +42,10 @@ class PokemonDetailsFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         _binding.apply {
-            val imageUrl = pokemon.sprites.front_default_url
+            val validId = validateId(pokemon.id.toString())
+            val imageUrl = "https://assets.pokemon.com/assets/cms2/img/pokedex/full/$validId.png"
             pokemon_image.load(imageUrl)
-            pokemon_id_text.text = pokemon.id.toString()
+            pokemon_id_text.text = validId
             pokemon_name_text.text = pokemon.name
             pokemon.types.forEach { type ->
                 val textView = TextView(context)
@@ -54,6 +57,15 @@ class PokemonDetailsFragment: Fragment() {
                 type_row.addView(textView)
             }
         }
+    }
+
+    private fun validateId(id: String): String {
+        val zeroesToAdd = 3 - id.length
+        var zeroes = ""
+        for (i in 0 until zeroesToAdd) {
+            zeroes += "0"
+        }
+        return "$zeroes$id"
     }
 
     override fun onDestroyView() {
