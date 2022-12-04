@@ -53,13 +53,10 @@ class SinglePokemonInputFragment: Fragment() {
 
     private fun onPokemonChangedEvent(event: Event<Pokemon>) {
         val pokemon = event.getContentIfNotHandled()
-        Log.d("chanelz", "$pokemon")
-
-        if (pokemon == null) {
-            showErrorMessage()
-        } else {
+        pokemon?.let {
+            Log.d("chanelz", "$it")
             findNavController().navigate(
-                SinglePokemonInputFragmentDirections.showPokemonDetails(pokemon)
+                SinglePokemonInputFragmentDirections.showPokemonDetails(it)
             )
         }
     }
