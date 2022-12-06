@@ -4,41 +4,40 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.chanel.android.pokedex.helpers.Event
 import com.chanel.android.pokedex.model.Pokemon
 import com.chanel.android.pokedex.network.RetrofitInstance
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 
 private const val TAG = "PokedexViewModel"
 
 class SinglePokemonViewModel : ViewModel() {
 
+    private val disposables = CompositeDisposable()
     private val _pokemon = MutableLiveData<Event<Pokemon>>()
     val pokemon: LiveData<Event<Pokemon>>
         get() = _pokemon
 
-    fun getSinglePokemon(id: String) {
-        viewModelScope.launch {
-            val response = try {
-                RetrofitInstance.pokemonApi.getPokemonInfo(id)
-            } catch(e: IOException) {
-                Log.e(TAG, "IOException, you might not have internet connection")
-                return@launch
-            } catch(e: HttpException) {
-                Log.e(TAG, "HttpException, unexpected response")
-                return@launch
-            }
+    override fun onCleared() {
+        super.onCleared()
+        disposables.clear()
+    }
 
-            if (response.isSuccessful) {
-                response.body()?.let { body ->
-                    _pokemon.value = Event(body)
+    fun getSinglePokemon(id: String) {
+        RetrofitInstance.pokemonApi.getPokemonInfo(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onSuccess = { response ->
+                    _pokemon.value = Event(response)
+                },
+                onError = {
+                    Log.e(TAG, "Error retrieving data: ${it.message}")
                 }
-            } else {
-                Log.e(TAG, "Response unsuccessful")
-            }
-        }
+            ).addTo(disposables)
     }
 }
