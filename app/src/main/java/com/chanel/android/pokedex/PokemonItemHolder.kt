@@ -14,7 +14,10 @@ class PokemonItemHolder(
     private val binding: PokemonItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(pokemon: Pokemon) {
+    fun bind(
+        pokemon: Pokemon,
+        onPokemonClicked: (Pokemon) -> Unit
+    ) {
         binding.apply {
             pokemonInfoLayout.removeAllViews()
             val validId = getValidId(pokemon.id)
@@ -30,6 +33,10 @@ class PokemonItemHolder(
                 )
                 textView.text = type.typeResult.name
                 pokemonInfoLayout.addView(textView)
+            }
+
+            binding.root.setOnClickListener {
+                onPokemonClicked(pokemon)
             }
         }
     }

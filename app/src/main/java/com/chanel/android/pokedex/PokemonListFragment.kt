@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -42,12 +43,11 @@ class PokemonListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        pokemonListViewModel.getPokemonList()
         pokemonListViewModel.pokemonList.observe(viewLifecycleOwner) { pokemonList ->
             onPokemonListChangedEvent(pokemonList)
         }
-
-        pokemonListViewModel.getPokemonList()
-        binding.pokemonListRecyclerView.adapter = PokemonListAdapter(listOf())
+        onPokemonListChangedEvent(listOf())
 
         val scrollListener = object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -61,7 +61,9 @@ class PokemonListFragment : Fragment() {
     }
 
     private fun onPokemonListChangedEvent(pokemonList: List<Pokemon>) {
-        binding.pokemonListRecyclerView.adapter = PokemonListAdapter(pokemonList)
+        binding.pokemonListRecyclerView.adapter = PokemonListAdapter(pokemonList) { pokemon ->
+                findNavController().navigate(SinglePokemonInputFragmentDirections.showPokemonDetails(pokemon))
+            }
     }
 
     override fun onDestroyView() {
