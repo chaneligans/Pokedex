@@ -24,5 +24,9 @@
     <fragment
         android:id="@+id/pokemonListFragment"
         android:name="com.chanel.android.pokedex.PokemonListFragment"
-        android:label="PokemonListFragment" />
+        android:label="PokemonListFragment" >
+        <action
+            android:id="@+id/action_pokemonListFragment_to_pokemonDetailsFragment"
+            app:destination="@id/pokemonDetailsFragment" />
+    </fragment>
 </navigation>

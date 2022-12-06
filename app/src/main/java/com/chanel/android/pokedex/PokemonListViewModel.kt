@@ -20,6 +20,7 @@ class PokemonListViewModel: ViewModel() {
     private val disposables = CompositeDisposable()
 
     private var pokemonResults = mutableListOf<Pokemon>()
+    private var totalPokemon = mutableListOf<Pokemon>()
     private var _pokemonList = MutableLiveData<List<Pokemon>>()
     val pokemonList: LiveData<List<Pokemon>>
         get() = _pokemonList
@@ -32,6 +33,10 @@ class PokemonListViewModel: ViewModel() {
     }
 
     fun getPokemonList() {
+        totalResultCount?.let { count ->
+            if (currentPosition >= count) return
+        }
+
         RetrofitInstance.pokemonApi.getPokemonList(
             offset = currentPosition,
             limit = RESULT_LIMIT
@@ -40,25 +45,25 @@ class PokemonListViewModel: ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .flatMapIterable { pokemonListQueryResult ->
                 totalResultCount = pokemonListQueryResult.count
-                Log.d("chanelz", "1: $pokemonListQueryResult")
                 pokemonListQueryResult.results
             }
             .flatMap { pokemonQueryResult ->
-                Log.d("chanelz", "1: $pokemonQueryResult")
                 RetrofitInstance.pokemonApi.getPokemonInfo(pokemonQueryResult.name)
             }
             .subscribeBy(
                 onNext = { pokemon ->
-                    Log.d("chanelz", "adding pokemon ${pokemon.name}")
                     pokemonResults.add(pokemon)
                     currentPosition++
                 },
                 onComplete = {
-                    Log.d("chanelz", "added $currentPosition pokemon ")
-                    _pokemonList.postValue(pokemonResults)
+                    val sortedPokemon = pokemonResults.sortedBy {pokemon -> pokemon.id}
+                    pokemonResults.clear()
+                    Log.d("chanelz", "added $sortedPokemon")
+                    totalPokemon.addAll(sortedPokemon)
+                    _pokemonList.postValue(totalPokemon)
                 },
                 onError = {
-                    Log.d("chanelz", "error: ${it}")
+                    Log.d(TAG, "Error while retrieving Pokemon list: $it")
                 }
             )
             .addTo(disposables)

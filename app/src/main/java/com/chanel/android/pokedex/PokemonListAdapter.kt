@@ -2,6 +2,7 @@ package com.chanel.android.pokedex
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chanel.android.pokedex.databinding.PokemonItemBinding
 import com.chanel.android.pokedex.model.Pokemon
@@ -9,7 +10,7 @@ import kotlin.coroutines.coroutineContext
 
 class PokemonListAdapter(
     private val pokemons: List<Pokemon>
-): RecyclerView.Adapter<PokemonItemHolder>() {
+): ListAdapter<Pokemon, PokemonItemHolder>(PokemonComparator) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonItemHolder {
         val inflater = LayoutInflater.from(parent.context)

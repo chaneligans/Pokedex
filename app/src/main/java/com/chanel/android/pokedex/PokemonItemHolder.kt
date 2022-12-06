@@ -16,6 +16,7 @@ class PokemonItemHolder(
 
     fun bind(pokemon: Pokemon) {
         binding.apply {
+            pokemonInfoLayout.removeAllViews()
             val validId = getValidId(pokemon.id)
             val imageUrl = getPokemonImageUrl(pokemon.id)
             pokemonImage.load(imageUrl)

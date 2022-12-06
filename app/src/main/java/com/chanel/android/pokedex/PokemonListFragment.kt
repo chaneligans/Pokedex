@@ -1,6 +1,7 @@
 package com.chanel.android.pokedex
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.chanel.android.pokedex.databinding.FragmentPokemonListBinding
 import com.chanel.android.pokedex.helpers.Event
 import com.chanel.android.pokedex.model.Pokemon
@@ -47,6 +49,15 @@ class PokemonListFragment : Fragment() {
         pokemonListViewModel.getPokemonList()
         binding.pokemonListRecyclerView.adapter = PokemonListAdapter(listOf())
 
+        val scrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1)) {
+                    pokemonListViewModel.getPokemonList()
+                }
+            }
+        }
+        binding.pokemonListRecyclerView.addOnScrollListener(scrollListener)
     }
 
     private fun onPokemonListChangedEvent(pokemonList: List<Pokemon>) {
