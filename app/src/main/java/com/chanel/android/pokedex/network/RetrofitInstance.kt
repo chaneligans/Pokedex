@@ -11,7 +11,7 @@ object RetrofitInstance {
     val pokemonApi: PokemonAPI by lazy {
         Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
             .baseUrl(POKEMON_API_URL)
             .build()
             .create(PokemonAPI::class.java)

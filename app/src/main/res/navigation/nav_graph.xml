@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/singlePokemonInputFragment">
+    app:startDestination="@id/pokemonListFragment">
     <fragment
         android:id="@+id/singlePokemonInputFragment"
         android:name="com.chanel.android.pokedex.SinglePokemonInputFragment"
@@ -21,4 +21,8 @@
             android:name="pokemon"
             app:argType="com.chanel.android.pokedex.model.Pokemon" />
     </fragment>
+    <fragment
+        android:id="@+id/pokemonListFragment"
+        android:name="com.chanel.android.pokedex.PokemonListFragment"
+        android:label="PokemonListFragment" />
 </navigation>

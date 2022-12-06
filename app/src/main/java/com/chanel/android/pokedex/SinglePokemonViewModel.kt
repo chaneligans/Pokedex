@@ -32,7 +32,7 @@ class SinglePokemonViewModel : ViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
-                onSuccess = { response ->
+                onNext = { response ->
                     _pokemon.value = Event(response)
                 },
                 onError = {

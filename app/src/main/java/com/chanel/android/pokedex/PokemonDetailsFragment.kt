@@ -1,7 +1,6 @@
 package com.chanel.android.pokedex
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.chanel.android.pokedex.databinding.FragmentPokemonDetailsBinding
+import com.chanel.android.pokedex.helpers.Helper.getPokemonImageUrl
+import com.chanel.android.pokedex.helpers.Helper.getValidId
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_id_text
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_image
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_name_text
@@ -42,8 +43,8 @@ class PokemonDetailsFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         _binding.apply {
-            val validId = validateId(pokemon.id.toString())
-            val imageUrl = "https://assets.pokemon.com/assets/cms2/img/pokedex/full/$validId.png"
+            val validId = getValidId(pokemon.id)
+            val imageUrl = getPokemonImageUrl(pokemon.id)
             pokemon_image.load(imageUrl)
             pokemon_id_text.text = validId
             pokemon_name_text.text = pokemon.name
@@ -57,15 +58,6 @@ class PokemonDetailsFragment: Fragment() {
                 type_row.addView(textView)
             }
         }
-    }
-
-    private fun validateId(id: String): String {
-        val zeroesToAdd = 3 - id.length
-        var zeroes = ""
-        for (i in 0 until zeroesToAdd) {
-            zeroes += "0"
-        }
-        return "$zeroes$id"
     }
 
     override fun onDestroyView() {
