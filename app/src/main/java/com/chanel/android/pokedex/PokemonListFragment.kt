@@ -1,23 +1,16 @@
 package com.chanel.android.pokedex
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chanel.android.pokedex.databinding.FragmentPokemonListBinding
-import com.chanel.android.pokedex.helpers.Event
 import com.chanel.android.pokedex.model.Pokemon
-import kotlinx.coroutines.launch
 
 private const val NUM_COLUMNS = 2
 
@@ -29,6 +22,7 @@ class PokemonListFragment : Fragment() {
             "Cannot access FragmentPokemonListBinding because it is null. Is the view visible?"
         }
 
+    private lateinit var adapter: PokemonListAdapter
     private val pokemonListViewModel: PokemonListViewModel by viewModels()
 
     override fun onCreateView(
@@ -43,16 +37,27 @@ class PokemonListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Make network call to retrieve initial pokemon
         pokemonListViewModel.getPokemonList()
+
+        // Observe any changes to our list of pokemon
         pokemonListViewModel.pokemonList.observe(viewLifecycleOwner) { pokemonList ->
             onPokemonListChangedEvent(pokemonList)
         }
-        onPokemonListChangedEvent(listOf())
+
+        // Initialize adapter and add onclick method
+        adapter = PokemonListAdapter { pokemon ->
+            findNavController().navigate(SinglePokemonInputFragmentDirections.showPokemonDetails(pokemon))
+        }
+        binding.pokemonListRecyclerView.adapter = adapter
 
         val scrollListener = object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1)) {
+                if (!recyclerView.canScrollVertically(1) &&
+                    !pokemonListViewModel.isLoading.get()
+                ) {
                     pokemonListViewModel.getPokemonList()
                 }
             }
@@ -61,9 +66,8 @@ class PokemonListFragment : Fragment() {
     }
 
     private fun onPokemonListChangedEvent(pokemonList: List<Pokemon>) {
-        binding.pokemonListRecyclerView.adapter = PokemonListAdapter(pokemonList) { pokemon ->
-                findNavController().navigate(SinglePokemonInputFragmentDirections.showPokemonDetails(pokemon))
-            }
+        adapter.submitList(pokemonList)
+        adapter.notifyDataSetChanged()
     }
 
     override fun onDestroyView() {

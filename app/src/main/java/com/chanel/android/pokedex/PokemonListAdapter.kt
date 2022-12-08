@@ -7,7 +7,6 @@ import com.chanel.android.pokedex.databinding.PokemonItemBinding
 import com.chanel.android.pokedex.model.Pokemon
 
 class PokemonListAdapter(
-    private val pokemons: List<Pokemon>,
     private val onPokemonClicked: (pokemon: Pokemon) -> Unit,
 ): ListAdapter<Pokemon, PokemonItemHolder>(PokemonComparator) {
 
@@ -18,11 +17,7 @@ class PokemonListAdapter(
     }
 
     override fun onBindViewHolder(holder: PokemonItemHolder, position: Int) {
-        val pokemon = pokemons[position]
+        val pokemon = getItem(position)
         holder.bind(pokemon, onPokemonClicked)
-    }
-
-    override fun getItemCount(): Int {
-        return pokemons.size
     }
 }

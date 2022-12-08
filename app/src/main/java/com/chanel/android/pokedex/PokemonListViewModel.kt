@@ -11,6 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.atomic.AtomicBoolean
 
 private const val TAG = "PokemonListViewModel"
 private const val RESULT_LIMIT = 20
@@ -19,6 +20,9 @@ class PokemonListViewModel: ViewModel() {
 
     private val disposables = CompositeDisposable()
 
+    private var _isLoading = AtomicBoolean(false)
+    val isLoading
+        get() = _isLoading
     private var pokemonResults = mutableListOf<Pokemon>()
     private var totalPokemon = mutableListOf<Pokemon>()
     private var _pokemonList = MutableLiveData<List<Pokemon>>()
@@ -37,6 +41,7 @@ class PokemonListViewModel: ViewModel() {
             if (currentPosition >= count) return
         }
 
+        _isLoading.set(true)
         RetrofitInstance.pokemonApi.getPokemonList(
             offset = currentPosition,
             limit = RESULT_LIMIT
@@ -61,8 +66,10 @@ class PokemonListViewModel: ViewModel() {
                     Log.d("chanelz", "added $sortedPokemon")
                     totalPokemon.addAll(sortedPokemon)
                     _pokemonList.postValue(totalPokemon)
+                    _isLoading.set(false)
                 },
                 onError = {
+                    _isLoading.set(false)
                     Log.d(TAG, "Error while retrieving Pokemon list: $it")
                 }
             )
