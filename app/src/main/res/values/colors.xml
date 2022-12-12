@@ -9,7 +9,8 @@
     <color name="mint">#EFFCD5</color>
     <color name="sky_blue">#5EBDFC</color>
     <color name="turquoise">#37796C</color>
-    <color name="gray">#DFDFDF</color>
+    <color name="gray_200">#DFDFDF</color>
+    <color name="gray_400">#9c9c9c</color>
     <color name="dark_blue">#0C3348</color>
 
     <!-- Types -->

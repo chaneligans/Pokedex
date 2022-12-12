@@ -29,7 +29,9 @@ class PokemonItemHolder(
             // Load Pokemon image in
             val validId = getValidId(pokemon.id)
             val imageUrl = getPokemonImageUrl(pokemon.id)
-            pokemonImage.load(imageUrl)
+            pokemonImage.load(imageUrl) {
+                placeholder(R.drawable.ic_baseline_downloading_24)
+            }
 
             // Set ID and name
             pokemonIdText.text = "#$validId"
@@ -55,7 +57,7 @@ class PokemonItemHolder(
                 }
 
                 // Add style
-                textView.setTextAppearance(R.style.type_text)
+                textView.setTextAppearance(R.style.card_type_text)
                 val backgroundColor = ContextCompat.getColor(pokemonNameText.context, getTypeColor(type.typeResult.name))
                 textView.setBackgroundColor(backgroundColor)
 
