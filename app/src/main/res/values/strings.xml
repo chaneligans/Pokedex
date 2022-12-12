@@ -9,4 +9,6 @@
     <string name="defense">DEF</string>
     <string name="speed">SPD</string>
     <string name="exp">EXP</string>
+    <string name="anthropometry">Anthropometry</string>
+    <string name="stats">Base Stats</string>
 </resources>

@@ -16,6 +16,7 @@ import com.chanel.android.pokedex.helpers.Helper
 import com.chanel.android.pokedex.helpers.Helper.getPokemonImageUrl
 import com.chanel.android.pokedex.helpers.Helper.getValidId
 import com.chanel.android.pokedex.model.Pokemon
+import kotlinx.android.synthetic.main.fragment_pokemon_details.height
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_atk_text
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_def_text
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_exp_text
@@ -71,8 +72,8 @@ class PokemonDetailsFragment: Fragment() {
             // Create textviews for each type and add to view
             setTypes(pokemon)
 
-            pokemon_height_text.text = pokemon.height.toString()
-            pokemon_weight_text.text = pokemon.weight.toString()
+            pokemon_height_text.text = getHeightMetersString(pokemon.height)
+            pokemon_weight_text.text = getWeightKgString(pokemon.weight)
             pokemon_exp_text.text = pokemon.baseExperience.toString()
 
             pokemon.stats.forEach { pokemonStat ->
@@ -115,6 +116,16 @@ class PokemonDetailsFragment: Fragment() {
             // Add to layout
             type_row.addView(textView)
         }
+    }
+
+    private fun getHeightMetersString(height: Int): String {
+        val h = String.format("%.2f", (height * .1))
+        return "$h m"
+    }
+
+    private fun getWeightKgString(weight: Int): String {
+        val w = String.format("%.2f", (weight * .1))
+        return "$w kg"
     }
 
     override fun onDestroyView() {
