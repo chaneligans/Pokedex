@@ -1,6 +1,7 @@
 package com.chanel.android.pokedex.model
 
 import android.os.Parcelable
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.android.parcel.Parcelize
 
@@ -14,4 +15,8 @@ data class Pokemon(
     val name: String,
     val types: List<PokemonType>,
     val sprites: Sprites,
+    val height: Int,
+    val weight: Int,
+    @Json(name="base_experience") val baseExperience: Int,
+    val stats: List<PokemonStat>,
 ) : Parcelable
