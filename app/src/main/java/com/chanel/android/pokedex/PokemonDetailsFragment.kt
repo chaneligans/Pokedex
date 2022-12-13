@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.setMargins
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.chanel.android.pokedex.databinding.FragmentPokemonDetailsBinding
@@ -20,10 +21,10 @@ import kotlinx.android.synthetic.main.fragment_pokemon_details.back_default_spri
 import kotlinx.android.synthetic.main.fragment_pokemon_details.back_shiny_sprite
 import kotlinx.android.synthetic.main.fragment_pokemon_details.front_default_sprite
 import kotlinx.android.synthetic.main.fragment_pokemon_details.front_shiny_sprite
-import kotlinx.android.synthetic.main.fragment_pokemon_details.height
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_abilities_text
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_atk_text
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_def_text
+import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_description_text
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_exp_text
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_height_text
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_hp_text
@@ -48,6 +49,13 @@ class PokemonDetailsFragment: Fragment() {
         "Cannot access FragmentPokemonDetailsBinding because it is null. Is the view visible?"
     }
 
+    private val viewModel: PokemonDetailsViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getPokemonSpecies(pokemon.id)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,6 +67,10 @@ class PokemonDetailsFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.flavorText.observe(viewLifecycleOwner) { flavorText ->
+            onFlavorTextChanged(flavorText)
+        }
 
         _binding.apply {
             // Load image in
@@ -87,6 +99,11 @@ class PokemonDetailsFragment: Fragment() {
 
             setSprites(pokemon)
         }
+    }
+
+    private fun onFlavorTextChanged(flavorText: String) {
+        val cleanedUpText = flavorText.replace(Regex("\\p{Cntrl}"), " ")
+        pokemon_description_text.text = cleanedUpText
     }
 
     private fun setTypes(pokemon: Pokemon) {

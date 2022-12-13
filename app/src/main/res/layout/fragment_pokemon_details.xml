@@ -47,6 +47,29 @@
         tools:src="@drawable/ic_baseline_pokemon_24" />
 
     <TextView
+        android:id="@+id/description_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/details_header_margin_top"
+        android:text="@string/description"
+        android:textAppearance="@style/details_header_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pokemon_image"
+        tools:text="Description"/>
+
+    <TextView
+        android:id="@+id/pokemon_description_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/stat_margin_top"
+        android:textAppearance="@style/details_stat_value_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description_header"
+        tools:text="A carnivorous\nPOKéMON that traps\nand eats bugs."/>
+
+    <TextView
         android:id="@+id/about_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,8 +78,8 @@
         android:textAppearance="@style/details_header_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pokemon_image"
-        tools:text="Anthropometry"/>
+        app:layout_constraintTop_toBottomOf="@+id/pokemon_description_text"
+        tools:text="About"/>
 
     <TextView
         android:id="@+id/height"
