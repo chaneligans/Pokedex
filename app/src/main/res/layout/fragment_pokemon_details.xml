@@ -231,4 +231,52 @@
         app:layout_constraintTop_toBottomOf="@+id/pokemon_spd_text"
         tools:text="60" />
 
+    <TextView
+        android:id="@+id/sprites_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/details_header_margin_top"
+        android:text="@string/sprites"
+        android:textAppearance="@style/details_header_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pokemon_exp_text"
+        tools:text="Sprites"/>
+
+    <ImageView
+        android:id="@+id/front_default_sprite"
+        android:layout_width="@dimen/sprite_size"
+        android:layout_height="@dimen/sprite_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/back_default_sprite"
+        app:layout_constraintTop_toBottomOf="@+id/sprites_header"
+        tools:src="@drawable/ic_baseline_pokemon_24"/>
+
+    <ImageView
+        android:id="@+id/back_default_sprite"
+        android:layout_width="@dimen/sprite_size"
+        android:layout_height="@dimen/sprite_size"
+        app:layout_constraintStart_toEndOf="@+id/front_default_sprite"
+        app:layout_constraintEnd_toStartOf="@+id/front_shiny_sprite"
+        app:layout_constraintTop_toBottomOf="@+id/sprites_header"
+        tools:src="@drawable/ic_baseline_pokemon_24"/>
+
+    <ImageView
+        android:id="@+id/front_shiny_sprite"
+        android:layout_width="@dimen/sprite_size"
+        android:layout_height="@dimen/sprite_size"
+        app:layout_constraintStart_toEndOf="@+id/back_default_sprite"
+        app:layout_constraintEnd_toStartOf="@+id/back_shiny_sprite"
+        app:layout_constraintTop_toBottomOf="@+id/sprites_header"
+        tools:src="@drawable/ic_baseline_pokemon_24"/>
+
+    <ImageView
+        android:id="@+id/back_shiny_sprite"
+        android:layout_width="@dimen/sprite_size"
+        android:layout_height="@dimen/sprite_size"
+        app:layout_constraintStart_toEndOf="@+id/front_shiny_sprite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sprites_header"
+        tools:src="@drawable/ic_baseline_pokemon_24"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

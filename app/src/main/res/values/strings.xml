@@ -11,4 +11,5 @@
     <string name="exp">EXP</string>
     <string name="anthropometry">Anthropometry</string>
     <string name="stats">Base Stats</string>
+    <string name="sprites">Sprites</string>
 </resources>

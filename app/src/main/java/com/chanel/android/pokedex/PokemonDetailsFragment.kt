@@ -16,6 +16,10 @@ import com.chanel.android.pokedex.helpers.Helper
 import com.chanel.android.pokedex.helpers.Helper.getPokemonImageUrl
 import com.chanel.android.pokedex.helpers.Helper.getValidId
 import com.chanel.android.pokedex.model.Pokemon
+import kotlinx.android.synthetic.main.fragment_pokemon_details.back_default_sprite
+import kotlinx.android.synthetic.main.fragment_pokemon_details.back_shiny_sprite
+import kotlinx.android.synthetic.main.fragment_pokemon_details.front_default_sprite
+import kotlinx.android.synthetic.main.fragment_pokemon_details.front_shiny_sprite
 import kotlinx.android.synthetic.main.fragment_pokemon_details.height
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_atk_text
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_def_text
@@ -76,15 +80,9 @@ class PokemonDetailsFragment: Fragment() {
             pokemon_weight_text.text = getWeightKgString(pokemon.weight)
             pokemon_exp_text.text = pokemon.baseExperience.toString()
 
-            pokemon.stats.forEach { pokemonStat ->
-                val value = pokemonStat.baseStat.toString()
-                when (pokemonStat.stat.name) {
-                    "hp" -> pokemon_hp_text.text = value
-                    "attack" -> pokemon_atk_text.text = value
-                    "defense" -> pokemon_def_text.text = value
-                    "speed" -> pokemon_spd_text.text = value
-                }
-            }
+            setStats(pokemon)
+
+            setSprites(pokemon)
         }
     }
 
@@ -115,6 +113,33 @@ class PokemonDetailsFragment: Fragment() {
 
             // Add to layout
             type_row.addView(textView)
+        }
+    }
+
+    private fun setStats(pokemon: Pokemon) {
+        pokemon.stats.forEach { pokemonStat ->
+            val value = pokemonStat.baseStat.toString()
+            when (pokemonStat.stat.name) {
+                "hp" -> pokemon_hp_text.text = value
+                "attack" -> pokemon_atk_text.text = value
+                "defense" -> pokemon_def_text.text = value
+                "speed" -> pokemon_spd_text.text = value
+            }
+        }
+    }
+
+    private fun setSprites(pokemon: Pokemon) {
+        front_default_sprite.load(pokemon.sprites.front_default_url) {
+            placeholder(R.drawable.ic_baseline_downloading_24)
+        }
+        front_shiny_sprite.load(pokemon.sprites.front_shiny_url) {
+            placeholder(R.drawable.ic_baseline_downloading_24)
+        }
+        back_default_sprite.load(pokemon.sprites.back_default_url) {
+            placeholder(R.drawable.ic_baseline_downloading_24)
+        }
+        back_shiny_sprite.load(pokemon.sprites.back_shiny_url) {
+            placeholder(R.drawable.ic_baseline_downloading_24)
         }
     }
 

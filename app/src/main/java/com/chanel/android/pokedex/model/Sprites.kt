@@ -12,5 +12,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class Sprites (
-    @Json(name = "front_default") val front_default_url: String
+    @Json(name = "front_default") val front_default_url: String,
+    @Json(name = "front_shiny") val front_shiny_url: String,
+    @Json(name = "back_default") val back_default_url: String,
+    @Json(name = "back_shiny") val back_shiny_url: String,
 ): Parcelable
