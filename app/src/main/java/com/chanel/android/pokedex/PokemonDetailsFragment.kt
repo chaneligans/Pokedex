@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_pokemon_details.back_shiny_sprite
 import kotlinx.android.synthetic.main.fragment_pokemon_details.front_default_sprite
 import kotlinx.android.synthetic.main.fragment_pokemon_details.front_shiny_sprite
 import kotlinx.android.synthetic.main.fragment_pokemon_details.height
+import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_abilities_text
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_atk_text
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_def_text
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_exp_text
@@ -76,6 +77,8 @@ class PokemonDetailsFragment: Fragment() {
             // Create textviews for each type and add to view
             setTypes(pokemon)
 
+            setAbilities(pokemon)
+
             pokemon_height_text.text = getHeightMetersString(pokemon.height)
             pokemon_weight_text.text = getWeightKgString(pokemon.weight)
             pokemon_exp_text.text = pokemon.baseExperience.toString()
@@ -114,6 +117,15 @@ class PokemonDetailsFragment: Fragment() {
             // Add to layout
             type_row.addView(textView)
         }
+    }
+
+    private fun setAbilities(pokemon: Pokemon) {
+        val abilitiesString = pokemon.abilities.joinToString(", ") { ability ->
+            ability.ability.name.replaceFirstChar { firstChar ->
+                if (firstChar.isLowerCase()) firstChar.titlecase(Locale.getDefault()) else firstChar.toString()
+            }
+        }
+        pokemon_abilities_text.text = abilitiesString
     }
 
     private fun setStats(pokemon: Pokemon) {

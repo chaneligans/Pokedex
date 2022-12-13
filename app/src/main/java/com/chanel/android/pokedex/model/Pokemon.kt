@@ -19,4 +19,5 @@ data class Pokemon(
     val weight: Int,
     @Json(name="base_experience") val baseExperience: Int,
     val stats: List<PokemonStat>,
+    val abilities: List<PokemonAbility>,
 ) : Parcelable
