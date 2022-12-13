@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="stat_margin_top">5dp</dimen>
-    <dimen name="details_header_margin_top">6dp</dimen>
+    <dimen name="details_header_margin_top">8dp</dimen>
     <dimen name="sprite_size">80dp</dimen>
 </resources>

@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="red_200">#db655a</color>
-    <color name="red_500">#cf3627</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+    <color name="mine_shaft">#212121</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="mint">#EFFCD5</color>
-    <color name="sky_blue">#5EBDFC</color>
-    <color name="turquoise">#37796C</color>
-    <color name="gray_200">#DFDFDF</color>
-    <color name="gray_400">#9c9c9c</color>
-    <color name="dark_blue">#0C3348</color>
+    <color name="alto">#DFDFDF</color>
+    <color name="dusty_gray">#9c9c9c</color>
+    <color name="tundora">#454545</color>
 
     <!-- Types -->
     <color name="normal">#A8A77A</color>
@@ -32,4 +26,25 @@
     <color name="dark">#705746</color>
     <color name="steel">#B7B7CE</color>
     <color name="fairy">#D685AD</color>
+
+    <!-- Pastels -->
+    <color name="normal_pastel">#b4b4a2</color>
+    <color name="fire_pastel">#e9a067</color>
+    <color name="water_pastel">#96b2ee</color>
+    <color name="electric_pastel">#f1d565</color>
+    <color name="grass_pastel">#99ca7d</color>
+    <color name="ice_pastel">#96D9D6</color>
+    <color name="fighting_pastel">#c0e2e0</color>
+    <color name="poison_pastel">#b361b1</color>
+    <color name="ground_pastel">#e3cd96</color>
+    <color name="flying_pastel">#cfc2f5</color>
+    <color name="psychic_pastel">#f48aaa</color>
+    <color name="bug_pastel">#c0d331</color>
+    <color name="rock_pastel">#c0b05d</color>
+    <color name="ghost_pastel">#8f7fa4</color>
+    <color name="dragon_pastel">#9670f5</color>
+    <color name="dark_pastel">#857266</color>
+    <color name="steel_pastel">#d8d8df</color>
+    <color name="fairy_pastel">#ddb0c7</color>
+
 </resources>

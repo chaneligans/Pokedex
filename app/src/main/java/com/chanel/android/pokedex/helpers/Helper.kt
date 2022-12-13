@@ -42,4 +42,28 @@ object Helper {
             else -> 0
         }
     }
+
+    fun getTypeColorPastel(type: String): Int {
+        return when (type) {
+            "normal" -> R.color.normal_pastel
+            "fire" -> R.color.fire_pastel
+            "water" -> R.color.water_pastel
+            "electric" -> R.color.electric_pastel
+            "grass" -> R.color.grass_pastel
+            "ice" -> R.color.ice_pastel
+            "fighting" -> R.color.fighting_pastel
+            "poison" -> R.color.poison_pastel
+            "ground" -> R.color.ground_pastel
+            "flying" -> R.color.flying_pastel
+            "psychic" -> R.color.psychic_pastel
+            "bug" -> R.color.bug_pastel
+            "rock" -> R.color.rock_pastel
+            "ghost" -> R.color.ghost_pastel
+            "dragon" -> R.color.dragon_pastel
+            "dark" -> R.color.dark_pastel
+            "steel" -> R.color.steel_pastel
+            "fairy" -> R.color.fairy_pastel
+            else -> 0
+        }
+    }
 }

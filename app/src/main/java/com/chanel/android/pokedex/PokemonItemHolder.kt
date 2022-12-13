@@ -1,5 +1,6 @@
 package com.chanel.android.pokedex
 
+import android.content.Context
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -10,6 +11,7 @@ import coil.load
 import com.chanel.android.pokedex.databinding.PokemonItemBinding
 import com.chanel.android.pokedex.helpers.Helper.getPokemonImageUrl
 import com.chanel.android.pokedex.helpers.Helper.getTypeColor
+import com.chanel.android.pokedex.helpers.Helper.getTypeColorPastel
 import com.chanel.android.pokedex.helpers.Helper.getValidId
 import com.chanel.android.pokedex.model.Pokemon
 import java.util.Locale
@@ -23,6 +25,8 @@ class PokemonItemHolder(
         onPokemonClicked: (Pokemon) -> Unit
     ) {
         binding.apply {
+            val context = pokemonNameText.context
+
             // Clear Pokemon type layout
             pokemonInfoLayout.removeAllViews()
 
@@ -32,6 +36,8 @@ class PokemonItemHolder(
             pokemonImage.load(imageUrl) {
                 placeholder(R.drawable.ic_baseline_downloading_24)
             }
+            val backgroundColor = ContextCompat.getColor(context, getTypeColorPastel(pokemon.types.first().typeResult.name))
+            pokemonImage.setBackgroundColor(backgroundColor)
 
             // Set ID and name
             pokemonIdText.text = "#$validId"
@@ -42,7 +48,7 @@ class PokemonItemHolder(
             // Create textviews for each type and add to view
             pokemon.types.forEach { type ->
                 // Create text view and add margins/padding
-                val textView = TextView(pokemonNameText.context)
+                val textView = TextView(context)
                 val layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
@@ -58,7 +64,7 @@ class PokemonItemHolder(
 
                 // Add style
                 textView.setTextAppearance(R.style.card_type_text)
-                val backgroundColor = ContextCompat.getColor(pokemonNameText.context, getTypeColor(type.typeResult.name))
+                val backgroundColor = ContextCompat.getColor(context, getTypeColor(type.typeResult.name))
                 textView.setBackgroundColor(backgroundColor)
 
                 // Add to layout
