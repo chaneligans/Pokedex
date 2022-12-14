@@ -1,4 +1,4 @@
-package com.chanel.android.pokedex
+package com.chanel.android.pokedex.model
 
 import android.os.Parcelable
 import com.squareup.moshi.JsonClass

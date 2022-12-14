@@ -2,8 +2,11 @@ package com.chanel.android.pokedex
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -26,6 +29,11 @@ class PokemonListFragment : Fragment() {
     private lateinit var adapter: PokemonListAdapter
     private val pokemonListViewModel: PokemonListViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,6 +54,8 @@ class PokemonListFragment : Fragment() {
         pokemonListViewModel.pokemonList.observe(viewLifecycleOwner) { pokemonList ->
             onPokemonListChangedEvent(pokemonList)
         }
+
+        // Observe if we are loading to show the loading spinner
         pokemonListViewModel.isLoadingObservable.observe(viewLifecycleOwner) { isLoading ->
             onLoadingStatusChangedEvent(isLoading)
         }
@@ -56,6 +66,7 @@ class PokemonListFragment : Fragment() {
         }
         binding.pokemonListRecyclerView.adapter = adapter
 
+        // Loads more pokemon when we scroll to the bottom of the recyclerview
         val scrollListener = object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -69,9 +80,43 @@ class PokemonListFragment : Fragment() {
         binding.pokemonListRecyclerView.addOnScrollListener(scrollListener)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_menu, menu)
+
+        val searchItem = menu.findItem(R.id.search)
+        val searchView = searchItem.actionView as? SearchView
+
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                filterList(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterList(newText)
+                return false
+            }
+        })
+    }
+
+    private fun filterList(query: String?) {
+        if (query != null) {
+            val newList = pokemonListViewModel.pokemonList.value?.filter {
+                it.name.contains(query) || it.id.toString().contains(query)
+            }
+            newList?.let {
+                onPokemonListChangedEvent(it)
+            }
+        } else {
+            pokemonListViewModel.pokemonList.value?.let {
+                onPokemonListChangedEvent(it)
+            }
+        }
+    }
+
     private fun onPokemonListChangedEvent(pokemonList: List<Pokemon>) {
         adapter.submitList(pokemonList)
-        adapter.notifyDataSetChanged()
     }
 
     private fun onLoadingStatusChangedEvent(isLoading: Boolean) {
