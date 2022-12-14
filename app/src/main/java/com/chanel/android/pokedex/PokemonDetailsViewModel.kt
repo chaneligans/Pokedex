@@ -37,7 +37,7 @@ class PokemonDetailsViewModel : ViewModel() {
                     flavorTextEntries = it.textEntries
                 },
                 onComplete = {
-                    val text = flavorTextEntries.first().flavorText
+                    val text = flavorTextEntries.first { it.language.name == "en" }.flavorText
                     _flavorText.postValue(text)
                 },
                 onError = {
