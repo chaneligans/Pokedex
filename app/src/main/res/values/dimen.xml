@@ -3,4 +3,5 @@
     <dimen name="stat_margin_top">5dp</dimen>
     <dimen name="details_header_margin_top">8dp</dimen>
     <dimen name="sprite_size">80dp</dimen>
+    <dimen name="details_padding">20dp</dimen>
 </resources>

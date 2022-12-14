@@ -1,5 +1,6 @@
 package com.chanel.android.pokedex
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +16,12 @@ import coil.load
 import com.chanel.android.pokedex.databinding.FragmentPokemonDetailsBinding
 import com.chanel.android.pokedex.helpers.Helper
 import com.chanel.android.pokedex.helpers.Helper.getPokemonImageUrl
+import com.chanel.android.pokedex.helpers.Helper.getTypeColorPastel
 import com.chanel.android.pokedex.helpers.Helper.getValidId
 import com.chanel.android.pokedex.model.Pokemon
 import kotlinx.android.synthetic.main.fragment_pokemon_details.back_default_sprite
 import kotlinx.android.synthetic.main.fragment_pokemon_details.back_shiny_sprite
+import kotlinx.android.synthetic.main.fragment_pokemon_details.background_color
 import kotlinx.android.synthetic.main.fragment_pokemon_details.front_default_sprite
 import kotlinx.android.synthetic.main.fragment_pokemon_details.front_shiny_sprite
 import kotlinx.android.synthetic.main.fragment_pokemon_details.pokemon_abilities_text
@@ -79,6 +82,7 @@ class PokemonDetailsFragment: Fragment() {
             pokemon_image.load(imageUrl) {
                 placeholder(R.drawable.ic_baseline_downloading_24)
             }
+            setBackgroundColor(pokemon)
 
             // Set name and id textviews
             pokemon_id_text.text = "#$validId"
@@ -88,7 +92,6 @@ class PokemonDetailsFragment: Fragment() {
 
             // Create textviews for each type and add to view
             setTypes(pokemon)
-
             setAbilities(pokemon)
 
             pokemon_height_text.text = getHeightMetersString(pokemon.height)
@@ -104,6 +107,16 @@ class PokemonDetailsFragment: Fragment() {
     private fun onFlavorTextChanged(flavorText: String) {
         val cleanedUpText = flavorText.replace(Regex("\\p{Cntrl}"), " ")
         pokemon_description_text.text = cleanedUpText
+    }
+
+    private fun setBackgroundColor(pokemon: Pokemon) {
+        context?.let {
+            val color = ContextCompat.getColor(
+                it,
+                getTypeColorPastel(pokemon.types.first().typeResult.name)
+            )
+            background_color.setBackgroundColor(color)
+        }
     }
 
     private fun setTypes(pokemon: Pokemon) {
