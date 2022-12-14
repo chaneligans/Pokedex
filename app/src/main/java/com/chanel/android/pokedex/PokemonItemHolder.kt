@@ -1,6 +1,5 @@
 package com.chanel.android.pokedex
 
-import android.content.Context
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView

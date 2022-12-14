@@ -23,6 +23,9 @@ class PokemonListViewModel: ViewModel() {
     private var _isLoading = AtomicBoolean(false)
     val isLoading
         get() = _isLoading
+    private var _isLoadingObservable = MutableLiveData<Boolean>()
+    val isLoadingObservable: LiveData<Boolean>
+        get() = _isLoadingObservable
     private var pokemonResults = mutableListOf<Pokemon>()
     private var totalPokemon = mutableListOf<Pokemon>()
     private var _pokemonList = MutableLiveData<List<Pokemon>>()
@@ -42,6 +45,7 @@ class PokemonListViewModel: ViewModel() {
         }
 
         _isLoading.set(true)
+        _isLoadingObservable.postValue(true)
         RetrofitInstance.pokemonApi.getPokemonList(
             offset = currentPosition,
             limit = RESULT_LIMIT
@@ -67,6 +71,7 @@ class PokemonListViewModel: ViewModel() {
                     totalPokemon.addAll(sortedPokemon)
                     _pokemonList.postValue(totalPokemon)
                     _isLoading.set(false)
+                    _isLoadingObservable.postValue(false)
                 },
                 onError = {
                     _isLoading.set(false)

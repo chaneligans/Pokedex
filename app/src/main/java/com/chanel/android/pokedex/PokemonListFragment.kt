@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chanel.android.pokedex.databinding.FragmentPokemonListBinding
 import com.chanel.android.pokedex.model.Pokemon
+import kotlinx.android.synthetic.main.fragment_pokemon_list.progress_bar
 
 private const val NUM_COLUMNS = 2
 
@@ -45,6 +46,9 @@ class PokemonListFragment : Fragment() {
         pokemonListViewModel.pokemonList.observe(viewLifecycleOwner) { pokemonList ->
             onPokemonListChangedEvent(pokemonList)
         }
+        pokemonListViewModel.isLoadingObservable.observe(viewLifecycleOwner) { isLoading ->
+            onLoadingStatusChangedEvent(isLoading)
+        }
 
         // Initialize adapter and add onclick method
         adapter = PokemonListAdapter { pokemon ->
@@ -68,6 +72,10 @@ class PokemonListFragment : Fragment() {
     private fun onPokemonListChangedEvent(pokemonList: List<Pokemon>) {
         adapter.submitList(pokemonList)
         adapter.notifyDataSetChanged()
+    }
+
+    private fun onLoadingStatusChangedEvent(isLoading: Boolean) {
+        progress_bar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {
